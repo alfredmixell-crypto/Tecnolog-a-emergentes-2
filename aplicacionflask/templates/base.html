@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Mi App{% endblock %}</title>
+    <style>
+      body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; }
+      .container { max-width: 700px; margin: 3rem auto; padding: 1.5rem; background: rgba(255,255,255,0.9); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+      header { text-align: center; margin-bottom: 1rem; }
+      .flash { padding: 0.6rem; border-radius: 6px; margin-bottom: 1rem; }
+      .flash.success { background: #d4edda; color: #155724; }
+      .flash.warning { background: #fff3cd; color: #856404; }
+      .flash.danger { background: #f8d7da; color: #721c24; }
+      .flash.info { background: #d1ecf1; color: #0c5460; }
+      form label { display:block; margin-top:0.6rem; }
+      input[type="text"], input[type="password"], input[type="color"] { width:100%; padding:0.5rem; margin-top:0.3rem; border-radius:6px; border:1px solid #ccc; box-sizing:border-box; }
+      button { margin-top:1rem; padding:0.6rem 1rem; border-radius:6px; border:none; cursor:pointer; }
+      .actions { display:flex; gap:0.6rem; margin-top:1rem; }
+      a { text-decoration:none; color:inherit; }
+      .toplinks { text-align:right; font-size:0.9rem; }
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body style="background: {{ bgcolor if bgcolor is defined else session.get('bgcolor', '#f0f0f0') }}; min-height:100vh;">
+    <div class="container">
+      <header>
+        <h1>{% block header %}Gestión de Usuarios{% endblock %}</h1>
+      </header>
+
+      <div class="toplinks">
+        {% if session.usuario %}
+          <strong>{{ session.usuario }}</strong> |
+          <a href="{{ url_for('inicio') }}">Inicio</a> |
+          <a href="{{ url_for('logout') }}">Cerrar sesión</a>
+        {% else %}
+          <a href="{{ url_for('index') }}">Login</a> |
+          <a href="{{ url_for('registro') }}">Registro</a>
+        {% endif %}
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, msg in messages %}
+            <div class="flash {{ category }}">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

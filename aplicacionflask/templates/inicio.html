@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+{% block head %}
+  <style>
+    .welcome { padding: 2rem; border-radius: 10px; background: rgba(255,255,255,0.85); display:inline-block; }
+  </style>
+{% endblock %}
+{% block content %}
+  <div style="text-align:center; margin-top:2rem;">
+    <div class="welcome">
+      <h2>Bienvenido, {{ usuario }}</h2>
+      <p>Este fondo usa tu color favorito (o azul cielo si eres admin).</p>
+      <p><a href="{{ url_for('logout') }}">Cerrar sesión</a></p>
+    </div>
+  </div>
+{% endblock %}
